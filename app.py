@@ -577,6 +577,7 @@ if __name__ == '__main__':
             f.write(getStores())
 
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.secret_key = os.urandom(12)
+    app.secret_key = os.urandom(12)+
+    sess.init_app(app)
     #app.run(host='0.0.0.0')
     app.run()
