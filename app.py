@@ -259,6 +259,8 @@ encryption_key = bytes(base64.b64decode(getKey()))
 timeNow = int(time.time())
 
 app = Flask(__name__)
+app.secret_key = 'super secret key'
+app.config['SESSION_TYPE'] = 'filesystem'
 @app.route('/')
 def index():
     # If they have pressed the refresh link remove the error and success messages
@@ -553,14 +555,6 @@ def lockin():
         return redirect(url_for('index'))
 
 if __name__ == '__main__':
-      # app.secret_key = os.urandom(12)
-    app.secret_key = 'super secret key'
-    app.config['SESSION_TYPE'] = 'filesystem'
-    sess.init_app(app)
-    #app.run(host='0.0.0.0')
-    app.debug = True
-    app.run()
-
     # Try and open stores.json
     if(os.path.isfile('./stores.json')):
         with open('./stores.json', 'r') as f:
@@ -585,3 +579,9 @@ if __name__ == '__main__':
             f.write(getStores())
 
 
+    # app.secret_key = os.urandom(12)
+
+    sess.init_app(app)
+    #app.run(host='0.0.0.0')
+    app.debug = True
+    app.run()
