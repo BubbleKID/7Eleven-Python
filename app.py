@@ -577,9 +577,9 @@ if __name__ == '__main__':
             f.write(getStores())
 
 
-app.secret_key = os.urandom(12)
-app.config['SESSION_TYPE'] = 'filesystem'
-sess.init_app(app)
-#app.run(host='0.0.0.0')
-app.debug = True
-app.run()
+    app.secret_key = os.urandom(12)
+    app.config['SESSION_TYPE'] = 'filesystem'
+    sess.init_app(app)
+    #app.run(host='0.0.0.0')
+    app.debug = True
+    app.run()
