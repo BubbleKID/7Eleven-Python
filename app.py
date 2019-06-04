@@ -214,14 +214,17 @@ def getStoreAddress(storePostcode):
             return str(store['Latitude']), str(store['Longitude'])
 
 def getKey():
-
+    # Found in file au.com.seveneleven.y.h
     a = [103, 180, 267, 204, 390, 504, 497, 784, 1035, 520, 1155, 648, 988, 1456, 1785]
+    # Found in file au.com.seveneleven.x.a
     b = [50, 114, 327, 276, 525, 522, 371, 904, 1017, 810, 858, 852, 1274, 1148, 915]
+    # Found in file au.com.seveneleven.x.c
     c = [74, 220, 249, 416, 430, 726, 840, 568, 1017, 700, 1155, 912, 1118, 1372]
 
+    # Get the length of all 3 variables
     length = len(a) + len(b) + len(c)
     key = ""
-
+    # Generate the key with a bit of maths
     for i in range(length):
         if(i % 3 == 0):
             key += chr( int((a[int(i / 3)] / ((i / 3) + 1)) ))
@@ -229,6 +232,7 @@ def getKey():
             key += chr( int((b[int((i - 1) / 3)] / (((i - 1) / 3) + 1)) ))
         if(i % 3 == 2):
             key += chr( int((c[int((i - 1) / 3)] / (((i - 2) / 3) + 1)) ))
+
     return key
 
 # Generate the tssa string
@@ -245,7 +249,7 @@ def generateTssa(URL, method, payload = None, accessToken = None):
     if(payload):
         payload = base64.b64encode(hashlib.md5(payload.encode()).digest())
         str3   += payload.decode()
-        print (str3)
+
     signature = base64.b64encode(hmac.new(encryption_key, str3.encode(), digestmod=hashlib.sha256).digest())
 
     # Finish building the tssa string
@@ -277,9 +281,17 @@ def index():
         except:
             pass
 
+    # If the environmental variable DEVICE_ID is empty or is not set at all
+    if(os.getenv('DEVICE_ID', settings.DEVICE_ID) in [None,"changethis",""]):
+        # Set the device id to a randomly generated one
+        DEVICE_ID = ''.join(random.choice('0123456789abcdef') for i in range(15))
+    else:
+        # Otherwise we set the it to the one set in settings.py
+        DEVICE_ID = os.getenv('DEVICE_ID', settings.DEVICE_ID)
+
     # Get the cheapest fuel price to show on the automatic lock in page
     fuelPrice = cheapestFuelAll()
-    return render_template('price.html')
+    return render_template('price.html',device_id=DEVICE_ID)
 
 
 
@@ -291,6 +303,13 @@ def login():
     session.pop('fuelType', None)
 
     if request.method == 'POST':
+
+        # If the device ID field was left blank, set a random one
+        if ((request.form['device_id']) in [None,""]):
+            session['DEVICE_ID'] = os.getenv('DEVICE_ID', ''.join(random.choice('0123456789abcdef') for i in range(15)))
+        else:
+            # Since it was filled out, we will use that for the rest of the session
+            session['DEVICE_ID'] = os.getenv('DEVICE_ID', request.form['device_id'])
         password = str(request.form['password'])
         email = str(request.form['email'])
 
@@ -509,7 +528,7 @@ def lockin():
                    'Authorization':'%s' % tssa,
                    'X-OsVersion':OS_VERSION,
                    'X-OsName':'Android',
-                   'X-DeviceID':session['deviceID'],
+                   'X-DeviceID':session['DEVICE_ID'],
                    'X-AppVersion':APP_VERSION,
                    'X-DeviceSecret':session['deviceSecret'],
                    'Content-Type':'application/json; charset=utf-8'}
@@ -579,10 +598,8 @@ if __name__ == '__main__':
         with open('./stores.json', 'wb') as f:
             f.write(getStores())
 
-
     # app.secret_key = os.urandom(12)
 
-    sess.init_app(app)
-    #app.run(host='0.0.0.0')
-    app.debug = True
-    app.run()
+    # sess.init_app(app)
+    app.run(host='0.0.0.0',debug=True)
+

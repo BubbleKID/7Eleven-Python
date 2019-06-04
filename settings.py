@@ -34,7 +34,7 @@ API_KEY="AIzaSyAtSAm9r8O0rz-PngeALfWrGynZ6vHunSI"
 # Australia/Victoria
 # Australia/West
 # Australia/Yancowinna
-TZ="UTC"
+TZ="Australia/Victoria"
 
 # BASE_URL: 7-11 Mobile Application API End Point
 BASE_URL="https://711-goodcall.api.tigerspike.com/api/v1/"
@@ -45,7 +45,7 @@ PRICE_URL="https://projectzerothree.info/api.php?format=json"
 # Device name - Samsung Galaxy S10. You can change this to any device you want.
 DEVICE_NAME="SM-G973FZKAXSA"
 
-# Device name - Samsung Galaxy S10. You can change this to any device you want.
+# OS version
 OS_VERSION="Android 9.0.0"
 
 # App version
