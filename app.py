@@ -50,6 +50,9 @@ if(API_KEY in [None,"changethis",""]):
     custom_coords = False
     print("Note: You have not set an API key. You will not be able to use Google to find a stores coordinates.\nBut you can still use the manual search if you know the postcode to the store you want to lock in from.\n\n\n\n\n")
 
+# If we have not set a device ID then let them know a random one will be generated
+if(os.getenv('DEVICE_ID', settings.DEVICE_ID) in [None,"changethis",""]):
+    print("Note: You have not set a device ID. A random one will be set when you login.")
 
 def cheapestFuelAll():
     # Just a quick way to get fuel prices from a website that is already created.
@@ -128,7 +131,7 @@ def lockedPrices():
                'Authorization':'%s' % tssa,
                'X-OsVersion':OS_VERSION,
                'X-OsName':'Android',
-               'X-DeviceID':session['deviceID'],
+               'X-DeviceID':session['DEVICE_ID'],
                'X-AppVersion':APP_VERSION,
                'X-DeviceSecret':session['deviceSecret']}
 
@@ -294,8 +297,6 @@ def login():
         # The payload that we use to login
         payload = '{"Email":"' + email + '","Password":"' + password + '","DeviceName":"' + DEVICE_NAME + '","DeviceOsNameVersion":"' + OS_VERSION +'"}'
 
-        # Generate a Device ID. We store it in a session so that it is tied to each lock in
-        session['deviceID'] = ''.join(random.choice('0123456789abcdef') for i in range(15))
         # Generate the tssa string
         tssa = generateTssa(BASE_URL + "account/login", "POST", payload)
 
@@ -304,7 +305,7 @@ def login():
                    'Authorization':'%s' % tssa,
                    'X-OsVersion':OS_VERSION,
                    'X-OsName':'Android',
-                   'X-DeviceID':session['deviceID'],
+                   'X-DeviceID':session['DEVICE_ID'],
                    'X-AppVersion':APP_VERSION,
                    'Content-Type':'application/json; charset=utf-8'}
 
@@ -358,7 +359,7 @@ def logout():
                'Authorization':'%s' % tssa,
                'X-OsVersion':OS_VERSION,
                'X-OsName':'Android',
-               'X-DeviceID':session['deviceID'],
+               'X-DeviceID':session['DEVICE_ID'],
                'X-AppVersion':APP_VERSION,
                'X-DeviceSecret':session['deviceSecret'],
                'Content-Type':'application/json; charset=utf-8'}
@@ -452,7 +453,7 @@ def lockin():
                        'Authorization':'%s' % tssa,
                        'X-OsVersion':OS_VERSION,
                        'X-OsName':'Android',
-                       'X-DeviceID':session['deviceID'],
+                       'X-DeviceID':session['DEVICE_ID'],
                        'X-AppVersion':APP_VERSION,
                        'X-DeviceSecret':session['deviceSecret'],
                        'Content-Type':'application/json; charset=utf-8'}

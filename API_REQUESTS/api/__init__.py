@@ -37,7 +37,6 @@ def getKey(encryptedKey):
   # get the hex from the encrypted secret key and then split every 2nd character into an array row
   hex_string = hashlib.sha1("om.sevenel").hexdigest()
   hex_array = [hex_string[i:i+2] for i in range(0,len(hex_string),2)]
-
   # Key is the returned key
   key = ""
   i = 0
