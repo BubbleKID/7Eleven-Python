@@ -34,6 +34,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # Used to load and save details from the autolock.ini config file and import our autolocker
 import autolocker, configparser
 
+config = configparser.ConfigParser()
+config.read("./autolock.ini")
 
 # If we haven't set the API key or it is it's default value, warn the user that we will disable the Google Maps search.
 if(functions.API_KEY in [None,"changethis",""]):
@@ -461,8 +463,6 @@ if __name__ == '__main__':
     scheduler.add_job(autolocker.start_lockin, 'interval', seconds=1800)
     scheduler.start()
 
-
     # app.secret_key = os.urandom(12)
-
     # sess.init_app(app)
     app.run(host='0.0.0.0')
