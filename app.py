@@ -74,7 +74,8 @@ def index():
         DEVICE_ID = os.getenv('DEVICE_ID', settings.DEVICE_ID)
 
     # Set the session max price for the auto locker
-    session['max_price'] = config['General']['max_price']
+    #session['max_price'] = config['General']['max_price']
+    session['max_price'] = 1.38
 
     # Get the cheapest fuel price to show on the automatic lock in page
     fuelPrice = functions.cheapestFuelAll()
