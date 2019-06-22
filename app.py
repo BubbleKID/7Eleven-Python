@@ -92,6 +92,8 @@ def login():
     session.pop('ErrorMessage', None)
     session.pop('SuccessMessage', None)
     session.pop('fuelType', None)
+    config = configparser.ConfigParser()
+    config.read("./autolock.ini")
 
     if request.method == 'POST':
         # If the device ID field was left blank, set a random one
