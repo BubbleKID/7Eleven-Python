@@ -33,7 +33,7 @@ import settings, functions
 from apscheduler.schedulers.background import BackgroundScheduler
 # Used to load and save details from the autolock.ini config file and import our autolocker
 import autolocker, configparser
-
+import configparser
 
 # If we haven't set the API key or it is it's default value, warn the user that we will disable the Google Maps search.
 if(functions.API_KEY in [None,"changethis",""]):
@@ -74,8 +74,9 @@ def index():
         DEVICE_ID = os.getenv('DEVICE_ID', settings.DEVICE_ID)
 
     # Set the session max price for the auto locker
-    #session['max_price'] = config['General']['max_price']
-    session['max_price'] = 1.38
+    config = configparser.ConfigParser()
+    session['max_price'] = config['General']['max_price']
+    #session['max_price'] = 1.38
 
     # Get the cheapest fuel price to show on the automatic lock in page
     fuelPrice = functions.cheapestFuelAll()
