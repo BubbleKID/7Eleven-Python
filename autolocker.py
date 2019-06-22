@@ -25,6 +25,9 @@ import time, random
 # Used for getting the variables and TSSA function etc
 import functions
 
+config = configparser.ConfigParser()
+config.read("./autolock.ini")
+
 # A function to search the (new) deals page to see if there is a post about 7-Eleven fuel prices
 def search_ozbargain():
     # We need to reiterate that suburb is global.. for some reason
@@ -81,8 +84,6 @@ def search_pzt():
     return suburb
 
 def start_lockin():
-    config = configparser.ConfigParser()
-    config.read("./autolock.ini")
     # Get the setting if auto_lock is true or false
     auto_lock_enabled = config['General'].getboolean('auto_lock_enabled')
     # Get the maximum price we want to pay for fuel
