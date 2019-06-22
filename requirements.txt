@@ -6,3 +6,4 @@ gunicorn==19.4.5
 configparser
 apscheduler
 beautifulsoup4
+bs4
