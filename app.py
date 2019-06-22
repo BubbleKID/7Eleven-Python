@@ -75,6 +75,7 @@ def index():
 
     # Set the session max price for the auto locker
     config = configparser.ConfigParser()
+    config.read("./autolock.ini")
     session['max_price'] = config['General']['max_price']
     #session['max_price'] = 1.38
 
