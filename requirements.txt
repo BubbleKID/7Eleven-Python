@@ -2,7 +2,7 @@ googlemaps==3.0.2
 requests==2.20.0
 Flask==1.0.2
 pytz
+gunicorn==19.4.5
 configparser
 apscheduler
 beautifulsoup4
-
