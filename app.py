@@ -47,7 +47,7 @@ if(os.getenv('DEVICE_ID', settings.DEVICE_ID) in [None,"changethis",""]):
 
 
 app = Flask(__name__)
-app.secret_key = 'super secret key'
+app.secret_key = os.urandom(12)
 app.config['SESSION_TYPE'] = 'filesystem'
 @app.route('/')
 def index():
@@ -463,5 +463,4 @@ if __name__ == '__main__':
 
     # app.secret_key = os.urandom(12)
     # sess.init_app(app)
-    app.run(host='0.0.0.0',debug=True)
-
+    app.run(host='0.0.0.0')
